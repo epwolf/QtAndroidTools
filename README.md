@@ -1,3 +1,6 @@
+# hightled
+Work good on Qt5.9.9.  在 Qt5.9.9 下编译和正常工作
+
 # QtAndroidTools
 QtAndroidTools is a library that allows to simplify access to some native Android features from QML.
 
@@ -33,6 +36,7 @@ Allow to change screen orientation
 
 **Notification**  
 Show Android system notifications  
+Note: icon should be placed in folder src/drawable in android package.  注意：图标应当放在安卓包里面的 src/drawable 目录下。
 
 **BatteryState**  
 Allow monitoring the battery level and state  
