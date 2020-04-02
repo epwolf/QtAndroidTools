@@ -25,6 +25,7 @@
 #include <QImage>
 #include <android/bitmap.h>
 #include "QAndroidNotification.h"
+#include <QDebug>
 
 QMap<int, QAndroidNotification*> QAndroidNotification::m_pInstancesMap;
 int QAndroidNotification::m_InstancesCounter = 0;
@@ -170,10 +171,13 @@ void QAndroidNotification::setSmallIconName(const QString &SmallIconName)
     PackageName = Activity.callObjectMethod("getPackageName", "()Ljava/lang/String;");
     Resources = Activity.callObjectMethod("getResources", "()Landroid/content/res/Resources;");
 
+    QString resFolder = "drawable";   //It referes to folder  res/drawable in android package. If it not exist, SmallIconResourceId will be always 0. If notification not shown, check this folder in you package.
+
+
     SmallIconResourceId = Resources.callMethod<jint>("getIdentifier",
                                                      "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I",
                                                      QAndroidJniObject::fromString(SmallIconName).object<jstring>(),
-                                                     QAndroidJniObject::fromString("drawable").object<jstring>(),
+                                                     QAndroidJniObject::fromString(resFolder).object<jstring>(),
                                                      PackageName.object<jstring>()
                                                      );
 
