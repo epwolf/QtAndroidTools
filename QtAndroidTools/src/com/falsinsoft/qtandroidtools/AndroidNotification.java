@@ -1,4 +1,4 @@
-/*
+                                                      /*
  *	MIT License
  *
  *	Copyright (c) 2018 Fabio Falsini <falsinsoft@gmail.com>
@@ -31,12 +31,11 @@ import android.os.Build;
 import android.graphics.Bitmap;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.app.NotificationCompat;
+import android.app.Notification;
 
 public class AndroidNotification
 {
-    private NotificationCompat.Builder mAppNotification;
+    private Notification.Builder mAppNotification;
     private boolean mNotificationEnabled = false;
     private final String NOTIFICATION_CHANNEL_ID;
     private final Activity mActivityInstance;
@@ -45,22 +44,22 @@ public class AndroidNotification
     public AndroidNotification(Activity ActivityInstance, int InstanceId)
     {
         NOTIFICATION_CHANNEL_ID = (ActivityInstance.getClass().getName() + Integer.toString(InstanceId));
-        mAppNotification = new NotificationCompat.Builder(ActivityInstance, NOTIFICATION_CHANNEL_ID);
+        mAppNotification = new Notification.Builder(ActivityInstance, NOTIFICATION_CHANNEL_ID);
         mActivityInstance = ActivityInstance;
         mNotificationId = InstanceId;
     }
 
     public void show()
     {
-        NotificationManagerCompat Manager = NotificationManagerCompat.from(mActivityInstance);
-        mAppNotification.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        NotificationManager Manager = (NotificationManager)mActivityInstance.getSystemService(Context.NOTIFICATION_SERVICE);
+        mAppNotification.setPriority(Notification.PRIORITY_DEFAULT);
         Manager.notify(mNotificationId, mAppNotification.build());
         mNotificationEnabled = true;
     }
 
     public void cancel()
     {
-        NotificationManagerCompat Manager = NotificationManagerCompat.from(mActivityInstance);
+        NotificationManager Manager = (NotificationManager)mActivityInstance.getSystemService(Context.NOTIFICATION_SERVICE);
         Manager.cancel(mNotificationId);
         mNotificationEnabled = false;
     }
@@ -69,7 +68,7 @@ public class AndroidNotification
     {
         if(mNotificationEnabled == true)
         {
-            NotificationManagerCompat Manager = NotificationManagerCompat.from(mActivityInstance);
+            NotificationManager Manager = (NotificationManager)mActivityInstance.getSystemService(Context.NOTIFICATION_SERVICE);
             Manager.notify(mNotificationId, mAppNotification.build());
         }
     }
@@ -88,7 +87,7 @@ public class AndroidNotification
 
     public void setExpandableContent(String expandableContent)
     {
-        mAppNotification.setStyle(new NotificationCompat.BigTextStyle().bigText(expandableContent));
+        mAppNotification.setStyle(new Notification.BigTextStyle().bigText(expandableContent));
         update();
     }
 
